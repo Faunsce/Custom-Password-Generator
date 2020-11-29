@@ -46,7 +46,16 @@ int main() {
 	sf::Texture boxTexture;
 //	boxTexture.loadFromFile();
 //	Object(sf::RectangleShape, "Box")->setTexture();
-	
+
+	/* Size Buttons */
+	objects.insert(std::pair<std::string, sf::Drawable*>("Size Up", new sf::RectangleShape(sf::Vector2f(100, 100)))); // Up
+	Object(sf::RectangleShape, "Size Up")->setOrigin(Object(sf::RectangleShape, "Size Up")->getSize().x / 2, Object(sf::RectangleShape, "Size Up")->getSize().y / 2);
+	Object(sf::RectangleShape, "Size Up")->setPosition(sf::Vector2f((realMode.width / 2) + (Object(sf::RectangleShape, "Box")->getSize().x / 2) + (Object(sf::RectangleShape, "Size Up")->getSize().x / 2), (realMode.height / 3) * 2));
+	sf::Texture sizeUpTexture;
+	sizeUpTexture.loadFromFile("assets/textures/plus_sign.png");
+	Object(sf::RectangleShape, "Size Up")->setTexture(&sizeUpTexture);
+
+
 	/* Font */
 	sf::Font font;
 	std::cout << std::filesystem::current_path() << std::endl;
