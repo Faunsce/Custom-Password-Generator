@@ -67,11 +67,13 @@ int main() {
 	std::cout << std::filesystem::current_path() << std::endl;
 	font.loadFromFile("assets/fonts/Roboto-Regular.ttf");
 	
-	/* Text Box*/ objects.insert(std::pair<std::string, sf::Drawable*>("Text", new sf::Text(" ", font, 30U)));
+	/* Password Box*/ objects.insert(std::pair<std::string, sf::Drawable*>("Password Text", new sf::Text(" ", font, 30U)));
 
 
 	/* Various Variables */
 	int passwordLength = 10;
+	int maxPasswordLength = 40;
+	int minPasswordLength = 1;
 
 	while (window.isOpen()) {
 		// Input
@@ -94,21 +96,26 @@ int main() {
 				mousePosF.x = sf::Mouse::getPosition().x;
 				mousePosF.y = sf::Mouse::getPosition().y;
 				if (static_cast<sf::RectangleShape*>(objects["Box"])->getGlobalBounds().contains(mousePosF)) {
-					static int MAX_SIZE = 40;
 					std::string result = generate(bank, passwordLength);
-					if (result.size() <= MAX_SIZE) {
-						Object(sf::Text, "Text")->setString(result);
+					if (result.size() <= maxPasswordLength) {
+						Object(sf::Text, "Password Text")->setString(result);
 					} else { 
-						Object(sf::Text, "Text")->setString((result.substr(0, MAX_SIZE - 3).append("...")));
+						Object(sf::Text, "Password Text")->setString((result.substr(0, maxPasswordLength - 3).append("...")));
 						std::cout << (result.substr(27).append("...")) << std::endl;
 					}
-					Object(sf::Text, "Text")->setCharacterSize(800 / Object(sf::Text, "Text")->getString().getSize());
-					Object(sf::Text, "Text")->setOrigin(Object(sf::Text, "Text")->getGlobalBounds().width / 2, Object(sf::Text, "Text")->getGlobalBounds().height / 2);
-					Object(sf::Text, "Text")->setPosition(sf::Vector2f(realMode.width / 2, (realMode.height / 3) * 1));
+					Object(sf::Text, "Password Text")->setCharacterSize(800 / Object(sf::Text, "Password Text")->getString().getSize());
+					Object(sf::Text, "Password Text")->setOrigin(Object(sf::Text, "Password Text")->getGlobalBounds().width / 2, Object(sf::Text, "Password Text")->getGlobalBounds().height / 2);
+					Object(sf::Text, "Password Text")->setPosition(sf::Vector2f(realMode.width / 2, (realMode.height / 3) * 1));
 					std::cout << "Password is : [" << result << "]" << std::endl;
 				} else if (static_cast<sf::RectangleShape*>(objects["Size Up"])->getGlobalBounds().contains(mousePosF)) {
 					passwordLength++;
-				} 
+				} else if (static_cast<sf::RectangleShape*>(objects["Size Down"])->getGlobalBounds().contains(mousePosF)) {
+					if (passwordLength != minPasswordLength) {
+						passwordLength--;
+					} else {
+						std::cout << "Cannot go below size [" << minPasswordLength << "]" << std::endl;
+					}
+				}
 				break;
 			}
 		}
