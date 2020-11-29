@@ -54,6 +54,12 @@ int main() {
 	sf::Texture sizeUpTexture;
 	sizeUpTexture.loadFromFile("assets/textures/plus_sign.png");
 	Object(sf::RectangleShape, "Size Up")->setTexture(&sizeUpTexture);
+	objects.insert(std::pair<std::string, sf::Drawable*>("Size Down", new sf::RectangleShape(sf::Vector2f(100, 100)))); // Down
+	Object(sf::RectangleShape, "Size Down")->setOrigin(Object(sf::RectangleShape, "Size Down")->getSize().x / 2, Object(sf::RectangleShape, "Size Down")->getSize().y / 2);
+	Object(sf::RectangleShape, "Size Down")->setPosition(sf::Vector2f((realMode.width / 2) - ((Object(sf::RectangleShape, "Box")->getSize().x / 2) + (Object(sf::RectangleShape, "Size Down")->getSize().x / 2)), (realMode.height / 3) * 2));
+	sf::Texture sizeDownTexture;
+	sizeDownTexture.loadFromFile("assets/textures/minus_sign.png");
+	Object(sf::RectangleShape, "Size Down")->setTexture(&sizeDownTexture);
 
 
 	/* Font */
