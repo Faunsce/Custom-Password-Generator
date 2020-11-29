@@ -70,6 +70,9 @@ int main() {
 	/* Text Box*/ objects.insert(std::pair<std::string, sf::Drawable*>("Text", new sf::Text(" ", font, 30U)));
 
 
+	/* Various Variables */
+	int passwordLength = 10;
+
 	while (window.isOpen()) {
 		// Input
 		sf::Event evnt;
@@ -91,9 +94,8 @@ int main() {
 				mousePosF.x = sf::Mouse::getPosition().x;
 				mousePosF.y = sf::Mouse::getPosition().y;
 				if (static_cast<sf::RectangleShape*>(objects["Box"])->getGlobalBounds().contains(mousePosF)) {
-					static int size = 27;
 					static int MAX_SIZE = 40;
-					std::string result = generate(bank, size++);
+					std::string result = generate(bank, passwordLength);
 					if (result.size() <= MAX_SIZE) {
 						Object(sf::Text, "Text")->setString(result);
 					} else { 
@@ -104,7 +106,9 @@ int main() {
 					Object(sf::Text, "Text")->setOrigin(Object(sf::Text, "Text")->getGlobalBounds().width / 2, Object(sf::Text, "Text")->getGlobalBounds().height / 2);
 					Object(sf::Text, "Text")->setPosition(sf::Vector2f(realMode.width / 2, (realMode.height / 3) * 1));
 					std::cout << "Password is : [" << result << "]" << std::endl;
-				}
+				} else if (static_cast<sf::RectangleShape*>(objects["Size Up"])->getGlobalBounds().contains(mousePosF)) {
+					passwordLength++;
+				} 
 				break;
 			}
 		}
